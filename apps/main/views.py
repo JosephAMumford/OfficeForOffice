@@ -13,17 +13,23 @@ import bcrypt
 # Create your views here.
 def index(request):
 
+    error = ""
+
     try:
         options_paragraphs = 5
         quotes = []
 
-        if 'character_ids' in request.session:
-            character_ids = request.session['character_ids']
-        else:
-            character_ids = ['1','2','3','4','5','6','7','8','9','10',
-                            '11','12','13','14','15','16','17','18','19','20',
-                            '21','22','23','24','25','26','27','28','29','30',
-                            '31','32','33','34','35','36']
+        try:
+            if 'character_ids' in request.session:
+                character_ids = request.session['character_ids']
+            
+            else:
+                character_ids = ['1','2','3','4','5','6','7','8','9','10',
+                                '11','12','13','14','15','16','17','18','19','20',
+                                '21','22','23','24','25','26','27','28','29','30',
+                                '31','32','33','34','35','36']
+        except:
+            error += ":Character ID error"
         
         if 'paragraphs' in request.session:
             options_paragraphs = int(request.session['paragraphs']) * 10
@@ -58,9 +64,13 @@ def index(request):
                 quote_ids.add(r)
 
         # Update generated texts count
-        gen_count = DatabaseStats.objects.get(id=1)
-        gen_count.count += 1
-        gen_count.save()
+        try:
+            gen_count = DatabaseStats.objects.get(id=1)
+            gen_count.count += 1
+            gen_count.save()
+
+        except:
+            error += ":DatabaseStat error"
         
         context = {
             "count": DatabaseStats.objects.get(id=1),
@@ -70,7 +80,7 @@ def index(request):
         return render (request,"main/index.html", context)
 
     except:
-        return HttpResponse("Index render failed")
+        return HttpResponse("Index render failed " + error)
 
 # Generate process, gather form data and pass to index which retrieves the Queryset
 def generate(request):
