@@ -61,13 +61,11 @@ def index(request):
                 quote_ids.add(r)
 
         # Update generated texts count
-        try:
-            gen_count = DatabaseStats.objects.get(id=1)
-            gen_count.count += 1
-            gen_count.save()
+        gen_count = DatabaseStats.objects.get(id=1)
+        gen_count.count += 1
+        gen_count.save()
 
-        except:
-            error += ":DatabaseStat error"
+        error += ":DatabaseStat error"
         
         context = {
             "count": DatabaseStats.objects.get(id=1),
