@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+    <head>
+        <title>The Office For The Office</title>
+        <meta charset="utf-8">
+        <meta name="description" content="The Office For The Office is a lorem ipsum generator.  You can get funny quotes from your favorite characters to
+            use for web development or if you just want to read for fun.">
+        <meta name="keywords" content="The Office, Lorem Ipsum, filler text">
+        <meta name="author" content="Joseph Mumford">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% load static %}
+        <link href= "{% static 'main/css/style.css' %}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel='shortcut icon' type='image/x-icon' href="{% static 'main/icon.ico' %}" />   
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="header">
+                <h1>The Office For The Office</h1>
+            </div>
+            <div style="height: 50px"></div>
+            <div id="message-box">
+                <div id="message">
+                    <p>Welcome to the Lorem Ipsum generator for The Office!  Click "Generate" to get funny filler text for your web page or if you just want to read
+                        funny quotes.  You can use the character selection table to filter which characters you want quotes from!  Quotes are still being added so check 
+                        back in for updated filler text.
+                    </p>
+                    <p>We've generated {{ count.count }} pages of filler text so far!</p>
+                </div>
+            </div>
+            <div id="control-panel">
+                <form action="generate", method="post">
+                    {% csrf_token %}
+                    <!-- Document Control -->
+                    <div>
+                        <button class="button-a" type="button" id="show_characters">Characters</button>
+                        <button class="button-a" type="button" onclick="SelectAll()" id="select_all">Select All</button>
+                        <button class="button-a" type="button" onclick="DeselectAll()" id="deselect_all">Deselect All</button>
+                        <label class="paragraph-cont">Paragraphs:<input class="paragraph_option" style="display:inline-block; width:36px" type="text" name="paragraphs" value ="5"></label>  
+                        <label class="character-toggle"><input class="document_option" type="checkbox" name="headers" checked="checked"><span class="hspan">Headers</span></label>
+                        <label class="character-toggle"><input class="document_option" type="checkbox" name="lists" checked="checked"><span class="lspan">Lists</span></label>
+                        <input class="button-a" type="submit" value="Generate">
+                    </div>
+                    <div id="character_selection">
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="1" name="1" checked="checked">Michael Scott</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="2" name="2" checked="checked">Dwight Schrute</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="3" name="3" checked="checked">Jim Halpert</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="4" name="4" checked="checked">Pam Beesly</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="5" name="5" checked="checked">Ryan Howard</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="6" name="6" checked="checked">Andy Bernard</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="7" name="7" checked="checked">Robert California</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="8" name="8" checked="checked">Jan Levinson</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="9" name="9" checked="checked">Roy Anderson</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="10" name="10" checked="checked">Stanely Hudson</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="11" name="11" checked="checked">Kevin Malone</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="12" name="12" checked="checked">Meredith Palmer</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="13" name="13" checked="checked">Angela Martin</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="14" name="14" checked="checked">Oscar Martinez</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="15" name="15" checked="checked">Phyllis Lapin</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="16" name="16" checked="checked">Kelly Kapoor</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="17" name="17" checked="checked">Toby Flenderson</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="18" name="18" checked="checked">Creed Bratton</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="19" name="19" checked="checked">Darryl Philbin</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="20" name="20" checked="checked">Erin Hannon</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="21" name="21" checked="checked">Gabe Lewis</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="22" name="22" checked="checked">Holly Flax</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="23" name="23" checked="checked">Nellie Bertam</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="24" name="24" checked="checked">Clark Green</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="25" name="25" checked="checked">Pete Miller</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="26" name="26" checked="checked">Todd Packer</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="27" name="27" checked="checked">David Wallace</label>                          
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="28" name="28" checked="checked">Karen Filippelli</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="29" name="29" checked="checked">Charles Miner</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="30" name="30" checked="checked">Jo Bennett</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="31" name="31" checked="checked">State Senator Rob Lipton</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="32" name="32" checked="checked">Deangelo Vickers</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="33" name="33" checked="checked">Val Johnson</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="34" name="34" checked="checked">Cathy Simms</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="35" name="35" checked="checked">Nate N. Nickerson</label>
+                        <label class="character-toggle"><input class="select_option" type="checkbox" value="36" name="36" checked="checked">Hidetoshi Hasagawa</label>
+                    </div>
+                </form>  
+            </div><!-- END CONTROL BOX -->
+            <div id="ipsum-data-box">
+                <div id="ipsum-data-bar">
+                    <div id="data-bar">
+                        <button class="button-a" onClick="DisplayText(jsQuotes)">Normal</button>
+                        <button class="button-a" onClick="DisplayHTML(jsQuotes)">HTML</button>
+                        <button class="button-a" onClick="CopyToClipboard('ipsum-data')">Copy</button>
+                    </div>
+                </div>
+                <div id="ipsum-data">
+                </div>
+            </div><!-- END IPSUM DATA BOX -->
+
+            <div id="footer">
+                <div class="footer-link">
+                    <label style="height:24px">Site created by Joseph Mumford 2018 </label>
+                </div>
+                <div class="footer-img">
+                    <a href="https://www.linkedin.com/in/joseph-mumford-dev/" target="_blank"><img src="{% static 'main/images/Logo-2C-21px-TM.png' %}" alt="linkedIn.png" height="24"></a>
+                </div>
+                <div class="footer-img">
+                    <a href="https://github.com/JosephAMumford" target="_blank"><img src="{% static 'main/images/GitHub-Mark-LIght-32px.png' %}" alt="linkedIn.png" height="24" width="24"></a>
+                </div>
+            </div>
+        </div><!-- END WRAPPER -->
+
+        <script> 
+
+            let jsQuotes = JSON.parse( "{{quotes|escapejs}}" );
+            
+            $(document).ready(function(){
+
+                //Load options
+                let item = JSON.parse(sessionStorage.getItem("character_selection"));
+                //Check if character selection option exists
+                if(item != null){
+                    //Options exists, so load
+                    if(item == "none"){
+                            $('#character_selection').hide();
+                            sessionStorage.setItem("character_selection", JSON.stringify("none")); 
+                    } 
+                    else {
+                            sessionStorage.setItem("character_selection", JSON.stringify("block"));
+                    }
+                    LoadOptions();
+                }
+                else {
+                    $('#character_selection').hide();
+                    SelectAll();
+                    SaveOption($('.paragraph_option').attr('name'),$('.paragraph_option').val()); 
+                    $('.hspan').text("Headers On");
+                    SaveOption("headers",true);
+                    $('.lspan').text("Headers On");
+                    SaveOption("lists", true);
+                    sessionStorage.setItem("character_selection", JSON.stringify("none"));             
+                }
+
+                //Set and load display option, normal, html
+                //Display quotes normal
+                let display_type = JSON.parse(sessionStorage.getItem("display"));
+                if(display_type != null){
+                    if(display_type == "normal"){
+                        DisplayText(jsQuotes);
+                    }
+                    else {
+                        DisplayHTML(jsQuotes);
+                    }
+                }
+                else{
+                    DisplayText(jsQuotes);
+                    SaveOption("display","normal");
+                }
+            });
+
+            //Document option selection
+            $('.paragraph_option').on('input',function(e){
+                SaveOption($(this).attr('name'),$(this).val()); 
+            });
+
+            //Checkbox selection
+            $(".select_option, .document_option").click(function(){
+                if($(this).attr('name') == "headers"){
+                    var checked = $(this).prop('checked');
+                    if(checked == true){
+                        $('.hspan').text("Headers On");
+                    }
+                    else{
+                        $('.hspan').text("Headers Off");
+                    }
+                }
+                if($(this).attr('name') == "lists"){
+                    var checked = $(this).prop('checked');
+                    if(checked == true){
+                        $('.lspan').text("Lists On");
+                    }
+                    else{
+                        $('.lspan').text("Lists Off");
+                    }
+                }
+                SaveOption($(this).attr('name'),$(this).prop('checked'));
+                ToggleColor($(this),"#696969", "#F3F2F8");   
+            });
+
+            //Checkbox hover
+            $(".character-toggle").hover(
+                function(){     //Hover in
+                    $(this).css("background-color", "#4F4F4F");
+                    $(this).css("color", "#F2F3F8")
+                },
+                function(){     //Hover out
+                    if($(this).children("input").prop('checked') == true){
+                        $(this).css("background-color", "#696969");
+                        $(this).css("color", "#F2F3F8")
+                    }
+                    else {
+                        $(this).css("background-color", "#F3F3F3");
+                        $(this).css("color", "#4F4F4F")
+                    }
+                }
+            );
+
+            //Button hover, change color.  Matches Character Toggle
+            $(".button-a").hover(
+                function(){
+                    $(this).css("background-color", "#4F4F4F");
+                },
+                function(){
+                    $(this).css("background-color", "#696969");
+                }
+            );
+
+            //Toggle character selection tab
+            $("#show_characters").click(function() {
+                $( "#character_selection" ).slideToggle( "fast", function() {
+                    if($('#character_selection').css("display") == "none"){
+                        sessionStorage.setItem("character_selection", JSON.stringify("none"));
+                    }
+                    else{
+                        sessionStorage.setItem("character_selection", JSON.stringify("block"));
+                    }
+                });
+            });
+
+            //Change color of character div on click
+            function ToggleColor(element, true_color, false_color){
+                if($(element).prop('checked') == true){
+                    $(element).parent().css("background-color", true_color);
+                    $(element).parent().css("color", "#F2F3F8"); 
+                }
+                else {
+                    $(element).parent().css("background-color", false_color);
+                    $(element).parent().css("color", "#4F4F4F");  
+                }  
+            }
+
+            //Save options in local session storage.  Clears once tab is closed
+            function SaveOption(element,value){
+                sessionStorage.setItem(element, JSON.stringify(value));
+            }
+            
+            //Load options from local session storage
+            function LoadOptions(){
+                let paragraph_name = "paragraphs";
+                let paragraph_value = JSON.parse(sessionStorage.getItem(paragraph_name));
+                $('.paragraph_option').val(paragraph_value);
+
+                $("#control-panel").find('input:checkbox').each(function() {
+                    let name = $(this).attr('name');
+                    let value = JSON.parse(sessionStorage.getItem(name));
+                    $(this).prop('checked',value);
+
+                    if($(this).attr('name') == "headers"){
+                        var checked = $(this).prop('checked');
+                        if(checked == true){
+                            $('.hspan').text("Headers On");
+                        }
+                        else{
+                            $('.hspan').text("Headers Off");
+                        }
+                    }
+                    if($(this).attr('name') == "lists"){
+                        var checked = $(this).prop('checked');
+                        if(checked == true){
+                            $('.lspan').text("Lists On");
+                        }
+                        else{
+                            $('.lspan').text("Lists Off");
+                        }
+                    }
+
+                    ToggleColor($(this),"#696969", "#F3F2F8");
+                });
+            }
+            
+            //Select all characters
+            function SelectAll(){
+                //event.preventDefault();
+                var optionElements = document.getElementsByClassName('select_option');
+                for(var i = 0; i < optionElements.length; i++){
+                    optionElements[i].checked = true;
+                    SaveOption(optionElements[i].name, optionElements[i].checked);
+                    ToggleColor($(optionElements[i]),"#696969", "#F3F2F8");
+                }
+            }
+
+            //Deselect all characters
+            function DeselectAll(){
+                event.preventDefault();
+                var optionElements = document.getElementsByClassName('select_option');
+                for(var i = 0; i < optionElements.length; i++){
+                    optionElements[i].checked = false;
+                    SaveOption(optionElements[i].name, optionElements[i].checked);
+                    ToggleColor($(optionElements[i]),"#696969", "#F3F2F8");
+                }
+            }
+            
+            //Copy current ipsum data to clipboard
+            function CopyToClipboard(containerid) {
+                if (document.selection) { 
+                    var range = document.body.createTextRange();
+                    range.moveToElementText(document.getElementById(containerid));
+                    range.select().createTextRange();
+                    document.execCommand("copy"); 
+
+                } else if (window.getSelection) {
+                    var range = document.createRange();
+                    range.selectNode(document.getElementById(containerid));
+                    window.getSelection().addRange(range);
+                    document.execCommand("copy");
+                }
+            }
+
+            //Argument is returned content from database
+            function DisplayText(data){
+
+                SaveOption("display","normal");
+
+                var container = document.getElementById('ipsum-data');
+                let section_string = "";
+
+                if(data.length > 0){
+                    let paragraph_value = JSON.parse(sessionStorage.getItem("paragraphs"));
+                    let header_value = JSON.parse(sessionStorage.getItem("headers"));
+                    let lists_value = JSON.parse(sessionStorage.getItem("lists"));
+                    let current_quote = 0
+                    let current_header = 1
+
+                    if((paragraph_value * 10) > data.length){
+                        paragraph_value = Math.floor(data.length / 10);
+                        $('.paragraph_option').val(paragraph_value);
+                        SaveOption($('.paragraph_option').attr('name'),paragraph_value); 
+                    }
+
+                    // Create Section
+                    for(let section = 0; section < paragraph_value; section++){
+    
+                        // Create Header
+                        if(header_value == true){
+                            section_string += "<h" + current_header.toString() + ">" + data[current_quote] + "</h" + current_header.toString() + ">";
+                            current_header++;
+                            if(current_header > 6){
+                                current_header = 1
+                            }
+                            current_quote++;
+                        }
+                        
+                        // Create Paragraphs
+                        section_string += "<p>";
+                        for(let sentence = 0; sentence < 5; sentence++){
+                            section_string += data[current_quote] + "&nbsp";
+                            current_quote++;
+                        }
+                        section_string += "</p>";
+                        
+                        // Create Lists
+                        if(lists_value == true){
+                            section_string += "<strong>" + data[current_quote] + "</strong>";
+                            current_quote++;
+                            section_string += "<ul>";
+                            for(let item = 0; item < 3; item++){
+                                section_string += "<li>" + data[current_quote] + "</li>";
+                                current_quote++;
+                            }
+                            section_string += "</ul>";
+                        }
+                    }
+                }
+                else {
+                    section_string = "<p>No records found</p>";
+                }
+
+                container.innerHTML = section_string;
+            }
+
+            function DisplayHTML(data){
+
+                SaveOption("display","html");
+
+                var container = document.getElementById('ipsum-data');
+                let section_string = "";
+
+                if(data.length > 0){
+                    let paragraph_value = JSON.parse(sessionStorage.getItem("paragraphs"));
+                    let header_value = JSON.parse(sessionStorage.getItem("headers"));
+                    let lists_value = JSON.parse(sessionStorage.getItem("lists"));
+                    let current_quote = 0
+                    let current_header = 1
+
+                    if((paragraph_value * 10) > data.length){
+                        paragraph_value = Math.floor(data.length / 10);
+                        $('.paragraph_option').val(paragraph_value);
+                        SaveOption($('.paragraph_option').attr('name'),paragraph_value); 
+                    }
+
+                    // Create Section
+                    for(let section = 0; section < paragraph_value; section++){
+    
+                        // Create Header
+                        if(header_value == true){
+                            let head = current_header.toString();
+                            section_string += "<h" + head + ">&lth" + head +"&gt" + data[current_quote] + "&lt/h" + head + "&gt" + "</h" + head + ">";
+                            current_header++;
+                            if(current_header > 6){
+                                current_header = 1
+                            }
+                            current_quote++;
+                        }
+                        
+                        // Create Paragraphs
+                        section_string += "<p>&ltp&gt";
+                        for(let sentence = 0; sentence < 5; sentence++){
+                            section_string += data[current_quote] + "&nbsp";
+                            current_quote++;
+                        }
+                        section_string += "&lt/p&gt </p>";
+                        
+                        // Create Lists
+                        if(lists_value == true){
+                            section_string += "<strong>&ltstrong&gt" + data[current_quote] + "&lt/strong&gt </strong>";
+                            current_quote++;
+                            section_string += "<ul>&ltul&gt";
+                            for(let item = 0; item < 3; item++){
+                                section_string += "<li>&ltli&gt" + data[current_quote] + "&lt/li&gt</li>";
+                                current_quote++;
+                            }
+                            section_string += "&lt/ul&gt</ul>";
+                        }
+                    }
+                }
+                else {
+                    section_string = "<p>&ltp&gtNo records found &lt/p&gt </p>";
+                }
+
+                container.innerHTML = section_string;
+            }
+
+        </script>
+    </body>
+</html>

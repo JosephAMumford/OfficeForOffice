@@ -1,0 +1,177 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#wrapper {
+    background-color: whitesmoke;
+    margin: 0px auto;
+    box-sizing: border-box;
+    min-height: 100%;
+    padding: 0 0 36px;
+    position: relative;
+}
+
+#footer {
+    background-color: #4F4F4F;
+    color: #F3F2F8;
+    bottom: 0;
+    height: 36px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.footer-link {
+    display: inline-block;
+    margin: 5px 10px;
+}
+.footer-img {
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+h1 {
+    margin: 5px;
+}
+
+h2 {
+    margin: 5px;
+}
+
+h3 {
+    margin: 5px;
+}
+
+h4 {
+    margin: 5px;
+}
+
+h5 {
+    margin: 5px;
+}
+
+h6 {
+    margin: 5px;
+}
+
+ul {
+    list-style: initial;
+    margin: initial;
+    padding: 0 0 0 40px;
+}
+
+li
+{
+    display: list-item;
+}
+
+strong {
+    margin: 5px;
+}
+
+
+/* Header Container */
+#header {
+    background-color: #4F4F4F;
+    color: #F3F2F8;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    padding: 5px 10px;
+}
+
+/* Message Container */
+#message-box {
+    margin: 5px 0px;
+    margin-top: 30px;
+    background-color: #4F4F4F;
+    color: #F3F2F8;
+}
+
+    #message {
+        width: 50%;
+        padding: 5px 10px;
+    }
+
+#control-panel {
+    background-color: #F3F2F8;
+    vertical-align: top;
+    display: inline-block;
+    margin: 5px 0px;
+}
+
+/* Ipsum Data */
+#ipsum-data-bar {
+    background-color: #9C9B9E;
+    margin: 5px 0px;
+    padding: 2px 5px;
+}
+
+#ipsum-data-box {
+    vertical-align: top;
+    display: inline-block;
+    width:100%;
+}
+
+#ipsum-data {
+    padding: 10px 20px;
+}
+
+/* Character Selection Box */
+#character_selection {
+    padding: 10px;
+}
+
+/* Generic Button */
+.button-a {
+    background-color: #696969;
+    color: #F3F2F8;
+    padding: 5px;
+    margin:2px; 
+    font-size: 12pt;
+}
+
+/* Paragraph Option Container */
+.paragraph-cont {
+    display: inline-block;
+    background-color: #696969;
+    color: #F3F2F8;
+    padding: 5px;
+    margin:2px; 
+}
+    .paragraph-cont input {
+        margin-left: 8px;
+    }
+
+/* Character Option Container */
+.character-toggle {
+    display: inline-block;
+    background-color: #696969;
+    color: #F3F2F8;
+    padding: 5px;
+    margin:2px;
+    width: 186px;
+    text-align: center;
+}
+
+/* Hide default checkbox */
+.character-toggle input {
+    display: none;
+}
+
+@media only screen and (max-width: 700px) {
+    #message {
+        width: 100%;
+    }
+}

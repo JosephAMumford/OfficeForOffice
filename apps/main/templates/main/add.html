@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Add to Database</title>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% load static %}
+        <link href= "{% static 'main/css/addStyle.css' %}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel='shortcut icon' type='image/x-icon' href="{% static 'main/icon.ico' %}" />   
+    </head>
+    <body>
+        <div id="wrapper">
+            <div class="form-box">
+                <h2>Add quotes to database</h2>
+                <form id="myForm" action='add_quote', method='post'>
+                    {% csrf_token %}
+                    <div class="form-item">
+                        <label class="label-item">Quote:</label>
+                        <textarea class="input-item" name="quote" cols="40" rows="5" placeholder=""></textarea>
+                    </div>
+                    <div class="form-item">
+                        <label class="label-item">Character:</label>
+                        <select class="input-item" name="character">
+                            <option value="1">Michael Scott</option>
+                            <option value="2">Dwight Schrute</option>
+                            <option value="3">Jim Halpert</option>
+                            <option value="4">Pam Beesly</option>
+                            <option value="5">Ryan Howard</option>
+                            <option value="6">Andy Bernard</option>
+                            <option value="7">Robert California</option>
+                            <option value="8">Jan Levinson</option>
+                            <option value="9">Roy Anderson</option>
+                            <option value="10">Stanley Hudson</option>
+                            <option value="11">Kevin Malone</option>
+                            <option value="12">Meredith Palmer</option>
+                            <option value="13">Angela Martin</option>
+                            <option value="14">Oscar Martinez</option>
+                            <option value="15">Phyllis Lapin</option>
+                            <option value="16">Kelly Kapoor</option>
+                            <option value="17">Toby Flenderson</option>
+                            <option value="18">Creed Bratton</option>
+                            <option value="19">Darryl Philbin</option>
+                            <option value="20">Erin Hannon</option>
+                            <option value="21">Gabe Lewis</option>
+                            <option value="22">Holly Flax</option>
+                            <option value="23">Nellie Bertram</option>
+                            <option value="24">Clark Green</option>
+                            <option value="25">Pete Miller</option>
+                            <option value="26">Todd Packer</option>
+                            <option value="27">David Wallace</option>
+                            <option value="28">Karen Filippelli</option>
+                            <option value="29">Charles Miner</option>
+                            <option value="30">Jo Bennett</option>
+                            <option value="31">State Senator Rob Lipton</option>
+                            <option value="32">Deangelo Vickers</option>
+                            <option value="33">Val Johnson</option>
+                            <option value="34">Cathy Simms</option>
+                            <option value="35">Nate N. Nickerson</option>
+                            <option value="36">Hidetoshi Hasagawa</option>
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label class="label-item">Season:</label>
+                        <select class="input-item" name="season">
+                            <option value="1">1</option>
+                            <!--<option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>-->
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label class="label-item">Episode:</label>
+                        <select class="input-item" name="episode">
+                            <!--<option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>-->
+                            <option value="6">6</option>
+                            <!--<option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="16">20</option>
+                            <option value="17">21</option>
+                            <option value="18">22</option>
+                            <option value="23">23</option>-->
+
+                        </select>
+                    </div>
+                    <input type='submit' name="formAction" value='Add Quote' class="button">
+                </form>
+            </div>
+            <div class="user-table">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Quote</th>
+                        <th>Character</th>
+                        <th>Season</th>
+                        <th>Episode</th>
+                    </tr>
+                    <tr>
+                        <td>{{ content.id }}</td>
+                        <td>{{ content.text }}</td>
+                        <td>{{ content.character.name }}</td>
+                        <td>{{ content.season }}</td>
+                        <td>{{ content.episode }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

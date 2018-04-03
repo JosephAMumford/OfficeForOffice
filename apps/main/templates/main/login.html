@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+    <head>
+        <title>Login</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% load static %}
+        <link href= "{% static 'main/css/addStyle.css' %}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel='shortcut icon' type='image/x-icon' href="{% static 'main/icon.ico' %}" />   
+    </head>
+    <body>                
+        <form id="myForm" action='process_login', method='post'>
+            {% csrf_token %}
+            <input type="password" name="password" value ="">
+            <input type='submit' name="formAction" value='Login' class="button">
+        </form>
+    </body>
+</html>
