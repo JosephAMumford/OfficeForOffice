@@ -21,11 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEBUG_SETTING
 
-ALLOWED_HOSTS = [MY_IP]
+ALLOWED_HOSTS = ['18.219.80.198']
 
 
 # Application definition
@@ -77,7 +76,7 @@ WSGI_APPLICATION = 'OfficeIpsum.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'OfficeIpsum',
+        'NAME': DATABASE_NAME,
         'USER': 'root',
         'PASSWORD': DATABASE_PASSWORD,
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
