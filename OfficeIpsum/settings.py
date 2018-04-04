@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEBUG_SETTING
 
-ALLOWED_HOSTS = ['18.219.80.198']
+ALLOWED_HOSTS = [MY_IP]
 
 
 # Application definition
