@@ -13,7 +13,7 @@ import bcrypt
 # Create your views here.
 def index(request):
 
-    error = ""
+    error = " LIST:"
 
     try:
         options_paragraphs = 5
@@ -21,13 +21,15 @@ def index(request):
 
         if 'character_ids' in request.session:
             character_ids = request.session['character_ids']
+            error += "(char_id if)"
             
         else:
             character_ids = ['1','2','3','4','5','6','7','8','9','10',
                             '11','12','13','14','15','16','17','18','19','20',
                             '21','22','23','24','25','26','27','28','29','30',
                             '31','32','33','34','35','36']
-        
+            error += "(char id else)"
+
         if 'paragraphs' in request.session:
             options_paragraphs = int(request.session['paragraphs']) * 10
 
@@ -40,10 +42,12 @@ def index(request):
         # Check to see if available quotes is less than user request
         if temp_count < options_paragraphs:
             options_paragraphs = temp_count
+            error += "(temp < options)"
 
         # If no results, skip loop and return nothing.  
         if temp_count <= 0:
             list_full = True
+            error += "(temp < 0)"
 
         while list_full == False: 
             
@@ -65,7 +69,7 @@ def index(request):
         gen_count.count += 1
         gen_count.save()
 
-        error += ":DatabaseStat error"
+        error += "(DatabaseStat error)"
         
         context = {
             "count": DatabaseStats.objects.get(id=1),
