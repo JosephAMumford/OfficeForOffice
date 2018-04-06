@@ -133,3 +133,11 @@ def add_quote(request):
     t.save() 
 
     return redirect("add")
+
+# Add Page
+def add(request):
+    context = {
+        'content': Quote.objects.last(),
+    }   
+    return render(request, "main/add.html", context)
+
