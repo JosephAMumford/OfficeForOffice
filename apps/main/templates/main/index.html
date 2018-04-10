@@ -11,6 +11,7 @@
         <meta name="author" content="Joseph Mumford">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% load static %}
+        {% load humanize %}
         <link href= "{% static 'main/css/style.css' %}" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel='shortcut icon' type='image/x-icon' href="{% static 'main/icon.ico' %}" />   
@@ -27,7 +28,7 @@
                         funny quotes.  You can use the character selection table to filter which characters you want quotes from!  Quotes are still being added so check 
                         back in for updated filler text.
                     </p>
-                    <p>We've generated {{ count.count }} pages of filler text so far!</p>
+                    <p>We've generated <span id="gen_count"></span>{{ count.count|intcomma }} pages of filler text so far!</p>
                 </div>
             </div>
             <div id="control-panel">
@@ -38,10 +39,10 @@
                         <button class="button-a" type="button" id="show_characters">Characters</button>
                         <button class="button-a" type="button" onclick="SelectAll()" id="select_all">Select All</button>
                         <button class="button-a" type="button" onclick="DeselectAll()" id="deselect_all">Deselect All</button>
-                        <label class="paragraph-cont">Paragraphs:<input class="paragraph_option" style="display:inline-block; width:36px" type="text" name="paragraphs" value ="5"></label>  
-                        <label class="character-toggle"><input class="document_option" type="checkbox" name="headers" checked="checked"><span class="hspan">Headers</span></label>
-                        <label class="character-toggle"><input class="document_option" type="checkbox" name="lists" checked="checked"><span class="lspan">Lists</span></label>
-                        <input class="button-a" type="submit" value="Generate">
+                        <label class="paragraph-cont">Paragraphs:<input id="option_p" class="paragraph_option" style="display:inline-block; width:36px" type="number" name="paragraphs" value ="5"></label>  
+                        <label class="character-toggle"><input id="option_h" class="document_option" type="checkbox" name="headers" checked="checked"><span class="hspan">Headers On</span></label>
+                        <label class="character-toggle"><input id="option_l" class="document_option" type="checkbox" name="lists" checked="checked"><span class="lspan">Lists On</span></label>
+                        <button class="generate-button button-a" type="button">Generate</button>
                     </div>
                     <div id="character_selection">
                         <label class="character-toggle"><input class="select_option" type="checkbox" value="1" name="1" checked="checked">Michael Scott</label>
@@ -86,8 +87,8 @@
             <div id="ipsum-data-box">
                 <div id="ipsum-data-bar">
                     <div id="data-bar">
-                        <button class="button-a" onClick="DisplayText(jsQuotes)">Normal</button>
-                        <button class="button-a" onClick="DisplayHTML(jsQuotes)">HTML</button>
+                        <button class="button-a" onClick="DisplayText(generated_quotes)">Normal</button>
+                        <button class="button-a" onClick="DisplayHTML(generated_quotes)">HTML</button>
                         <button class="button-a" onClick="CopyToClipboard('ipsum-data')">Copy</button>
                     </div>
                 </div>
@@ -110,230 +111,87 @@
 
         <script> 
 
-            let jsQuotes = JSON.parse( "{{quotes|escapejs}}" );
-            
+            var generated_quotes;
+
+            //Start
             $(document).ready(function(){
-
-                //Load options
-                let item = JSON.parse(sessionStorage.getItem("character_selection"));
-                //Check if character selection option exists
-                if(item != null){
-                    //Options exists, so load
-                    if(item == "none"){
-                            $('#character_selection').hide();
-                            sessionStorage.setItem("character_selection", JSON.stringify("none")); 
-                    } 
-                    else {
-                            sessionStorage.setItem("character_selection", JSON.stringify("block"));
-                    }
-                    LoadOptions();
-                }
-                else {
-                    $('.paragraph_option').val("5");
-                    $('#character_selection').hide();
-                    SelectAll();
-                    SaveOption($('.paragraph_option').attr('name'),$('.paragraph_option').val()); 
-                    $('.hspan').text("Headers On");
-                    SaveOption("headers",true);
-                    $('.lspan').text("Headers On");
-                    SaveOption("lists", true);
-                    sessionStorage.setItem("character_selection", JSON.stringify("none"));             
-                }
-
-                //Set and load display option, normal, html
-                //Display quotes normal
-                let display_type = JSON.parse(sessionStorage.getItem("display"));
-                if(display_type != null){
-                    if(display_type == "normal"){
-                        DisplayText(jsQuotes);
-                    }
-                    else {
-                        DisplayHTML(jsQuotes);
-                    }
-                }
-                else{
-                    DisplayText(jsQuotes);
-                    SaveOption("display","normal");
-                }
-            });
-
-            //Document option selection
-            $('.paragraph_option').on('input',function(e){
-                SaveOption($(this).attr('name'),$(this).val()); 
-            });
-
-            //Checkbox selection
-            $(".select_option, .document_option").click(function(){
-                if($(this).attr('name') == "headers"){
-                    var checked = $(this).prop('checked');
-                    if(checked == true){
-                        $('.hspan').text("Headers On");
-                    }
-                    else{
-                        $('.hspan').text("Headers Off");
-                    }
-                }
-                if($(this).attr('name') == "lists"){
-                    var checked = $(this).prop('checked');
-                    if(checked == true){
-                        $('.lspan').text("Lists On");
-                    }
-                    else{
-                        $('.lspan').text("Lists Off");
-                    }
-                }
-                SaveOption($(this).attr('name'),$(this).prop('checked'));
-                ToggleColor($(this),"#696969", "#F3F2F8");   
-            });
-
-            //Checkbox hover
-            $(".character-toggle").hover(
-                function(){     //Hover in
-                    $(this).css("background-color", "#4F4F4F");
-                    $(this).css("color", "#F2F3F8")
-                },
-                function(){     //Hover out
-                    if($(this).children("input").prop('checked') == true){
-                        $(this).css("background-color", "#696969");
-                        $(this).css("color", "#F2F3F8")
-                    }
-                    else {
-                        $(this).css("background-color", "#F3F3F3");
-                        $(this).css("color", "#4F4F4F")
-                    }
-                }
-            );
-
-            //Button hover, change color.  Matches Character Toggle
-            $(".button-a").hover(
-                function(){
-                    $(this).css("background-color", "#4F4F4F");
-                },
-                function(){
-                    $(this).css("background-color", "#696969");
-                }
-            );
-
-            //Toggle character selection tab
-            $("#show_characters").click(function() {
-                $( "#character_selection" ).slideToggle( "fast", function() {
-                    if($('#character_selection').css("display") == "none"){
-                        sessionStorage.setItem("character_selection", JSON.stringify("none"));
-                    }
-                    else{
-                        sessionStorage.setItem("character_selection", JSON.stringify("block"));
-                    }
-                });
-            });
-
-            //Change color of character div on click
-            function ToggleColor(element, true_color, false_color){
-                if($(element).prop('checked') == true){
-                    $(element).parent().css("background-color", true_color);
-                    $(element).parent().css("color", "#F2F3F8"); 
-                }
-                else {
-                    $(element).parent().css("background-color", false_color);
-                    $(element).parent().css("color", "#4F4F4F");  
-                }  
-            }
-
-            //Save options in local session storage.  Clears once tab is closed
-            function SaveOption(element,value){
-                sessionStorage.setItem(element, JSON.stringify(value));
-            }
-            
-            //Load options from local session storage
-            function LoadOptions(){
-                let paragraph_name = "paragraphs";
-                let paragraph_value = JSON.parse(sessionStorage.getItem(paragraph_name));
-                $('.paragraph_option').val(paragraph_value);
-
-                $("#control-panel").find('input:checkbox').each(function() {
-                    let name = $(this).attr('name');
-                    let value = JSON.parse(sessionStorage.getItem(name));
-                    $(this).prop('checked',value);
-
-                    if($(this).attr('name') == "headers"){
-                        var checked = $(this).prop('checked');
-                        if(checked == true){
-                            $('.hspan').text("Headers On");
-                        }
-                        else{
-                            $('.hspan').text("Headers Off");
-                        }
-                    }
-                    if($(this).attr('name') == "lists"){
-                        var checked = $(this).prop('checked');
-                        if(checked == true){
-                            $('.lspan').text("Lists On");
-                        }
-                        else{
-                            $('.lspan').text("Lists Off");
-                        }
-                    }
-
-                    ToggleColor($(this),"#696969", "#F3F2F8");
-                });
-            }
-            
-            //Select all characters
-            function SelectAll(){
-                //event.preventDefault();
-                var optionElements = document.getElementsByClassName('select_option');
+                $('#character_selection').hide();
+                SelectAll();
+                var optionElements = document.getElementsByClassName('document_option');
                 for(var i = 0; i < optionElements.length; i++){
                     optionElements[i].checked = true;
-                    SaveOption(optionElements[i].name, optionElements[i].checked);
                     ToggleColor($(optionElements[i]),"#696969", "#F3F2F8");
                 }
-            }
 
-            //Deselect all characters
-            function DeselectAll(){
-                event.preventDefault();
+                GetQuotes();
+            });
+
+            function GetOptions () {
+                let data = {};
+
+                data['paragraphs'] = $('#option_p').val();
+
+                var optionElements1 = document.getElementsByClassName('document_option');
+                for(var i = 0; i < optionElements1.length; i++){
+                    if(optionElements1[i].checked == true){
+                        data[optionElements1[i].name] = true;
+                    }
+                    else {
+                        data[optionElements1[i].name] = false;
+                    }
+                }
+                
                 var optionElements = document.getElementsByClassName('select_option');
                 for(var i = 0; i < optionElements.length; i++){
-                    optionElements[i].checked = false;
-                    SaveOption(optionElements[i].name, optionElements[i].checked);
-                    ToggleColor($(optionElements[i]),"#696969", "#F3F2F8");
+                    let j = (1 + i).toString();
+                    if(optionElements[i].checked == true){
+                        data[j] = true;
+                    }
+                    else {
+                        data[j] = false;
+                    }
                 }
-            }
-            
-            //Copy current ipsum data to clipboard
-            function CopyToClipboard(containerid) {
-                if (document.selection) { 
-                    var range = document.body.createTextRange();
-                    range.moveToElementText(document.getElementById(containerid));
-                    range.select().createTextRange();
-                    document.execCommand("copy"); 
 
-                } else if (window.getSelection) {
-                    var range = document.createRange();
-                    range.selectNode(document.getElementById(containerid));
-                    window.getSelection().addRange(range);
-                    document.execCommand("copy");
-                }
+                return data;
             }
 
-            //Argument is returned content from database
-            function DisplayText(data){
+            $('.generate-button').click(function() {
+                GetQuotes();
+            });
 
-                SaveOption("display","normal");
+            function GetQuotes(){
+                let option_data = GetOptions();
+                                    
+                $.post("get_quotes", option_data, function(data, status){
+                    generated_quotes = data;
+                    DisplayText(data);
+                });
 
+                SetCount();
+            }
+
+            function DisplayText(data) {
                 var container = document.getElementById('ipsum-data');
                 let section_string = "";
 
                 if(data.length > 0){
-                    let paragraph_value = JSON.parse(sessionStorage.getItem("paragraphs"));
-                    let header_value = JSON.parse(sessionStorage.getItem("headers"));
-                    let lists_value = JSON.parse(sessionStorage.getItem("lists"));
+                    let paragraph_value = $('#option_p').val();
+                    let header_value = document.getElementById('option_h').checked;
+                    let lists_value = document.getElementById('option_l').checked;
                     let current_quote = 0
                     let current_header = 1
 
-                    if((paragraph_value * 10) > data.length){
-                        paragraph_value = Math.floor(data.length / 10);
+                    let total = 5;
+                    if(header_value == true){
+                        total += 1;
+                    }
+                    if(lists_value == true){
+                        total += 4;
+                    }
+
+                    if(paragraph_value * total > data.length){
+                        paragraph_value = Math.floor(data.length / total);
                         $('.paragraph_option').val(paragraph_value);
-                        SaveOption($('.paragraph_option').attr('name'),paragraph_value); 
                     }
 
                     // Create Section
@@ -378,23 +236,27 @@
             }
 
             function DisplayHTML(data){
-
-                SaveOption("display","html");
-
                 var container = document.getElementById('ipsum-data');
                 let section_string = "";
 
                 if(data.length > 0){
-                    let paragraph_value = JSON.parse(sessionStorage.getItem("paragraphs"));
-                    let header_value = JSON.parse(sessionStorage.getItem("headers"));
-                    let lists_value = JSON.parse(sessionStorage.getItem("lists"));
+                    let paragraph_value = $('#option_p').val();
+                    let header_value = document.getElementById('option_h').checked;
+                    let lists_value = document.getElementById('option_l').checked;
                     let current_quote = 0
                     let current_header = 1
 
-                    if((paragraph_value * 10) > data.length){
-                        paragraph_value = Math.floor(data.length / 10);
+                    let total = 5;
+                    if(header_value == true){
+                        total += 1;
+                    }
+                    if(lists_value == true){
+                        total += 4;
+                    }
+
+                    if(paragraph_value * total > data.length){
+                        paragraph_value = Math.floor(data.length / total);
                         $('.paragraph_option').val(paragraph_value);
-                        SaveOption($('.paragraph_option').attr('name'),paragraph_value); 
                     }
 
                     // Create Section
@@ -439,6 +301,122 @@
                 container.innerHTML = section_string;
             }
 
+            function SetCount(){
+                var element = document.getElementById('gen_count');  
+
+                $.get("get_count", function(data, status){
+                    $('#gen_count').text(data.count);
+                });
+            }
+
+            //Checkbox selection
+            $(".select_option, .document_option").click(function(){
+
+                ToggleColor($(this),"#696969", "#F3F2F8");   
+
+                if($(this).attr('name') == "headers"){
+                    if($(this)[0].checked == true){
+                        $('.hspan').text("Headers On");  
+                    }
+                    else{
+                        $('.hspan').text("Headers Off"); 
+
+                    }
+                }
+
+                if($(this).attr('name') == "lists"){
+                    if($(this)[0].checked == true){
+                        $('.lspan').text("Lists On");
+                    }
+                    else{
+                        $('.lspan').text("Lists Off");
+                    }
+                }
+
+                ToggleColor($(this),"#696969", "#F3F2F8");   
+            });
+
+            //Checkbox hover
+            $(".character-toggle").hover(
+                function(){     //Hover in
+                    $(this).css("background-color", "#4F4F4F");
+                    $(this).css("color", "#F2F3F8")
+                },
+                function(){     //Hover out
+                    if($(this).children("input").prop('checked') == true){
+                        $(this).css("background-color", "#696969");
+                        $(this).css("color", "#F2F3F8")
+                    }
+                    else {
+                        $(this).css("background-color", "#F3F3F3");
+                        $(this).css("color", "#4F4F4F")
+                    }
+                }
+            );
+
+            //Button hover, change color.  Matches Character Toggle
+            $(".button-a").hover(
+                function(){
+                    $(this).css("background-color", "#4F4F4F");
+                },
+                function(){
+                    $(this).css("background-color", "#696969");
+                }
+            );
+
+            //Toggle character selection tab
+            $("#show_characters").click(function() {
+                $( "#character_selection" ).slideToggle( "fast", function() {
+                });
+            });
+
+            //Change color of character div on click
+            function ToggleColor(element, true_color, false_color){
+                if($(element)[0].checked == true){
+                    $(element).parent().css("background-color", true_color);
+                    $(element).parent().css("color", "#F2F3F8"); 
+                }
+                else {
+                    $(element).parent().css("background-color", false_color);
+                    $(element).parent().css("color", "#4F4F4F");  
+                }  
+            }
+  
+            //Select all characters
+            function SelectAll(){
+                //event.preventDefault();
+                var optionElements = document.getElementsByClassName('select_option');
+                for(var i = 0; i < optionElements.length; i++){
+                    optionElements[i].checked = true;
+                    ToggleColor($(optionElements[i]),"#696969", "#F3F2F8");
+                }
+            }
+
+            //Deselect all characters
+            function DeselectAll(){
+                //event.preventDefault();
+                var optionElements = document.getElementsByClassName('select_option');
+                for(var i = 0; i < optionElements.length; i++){
+                    optionElements[i].checked = false;
+                    ToggleColor($(optionElements[i]),"#696969", "#F3F2F8");
+                }
+            }
+            
+            //Copy current ipsum data to clipboard
+            function CopyToClipboard(containerid) {
+                if (document.selection) { 
+                    var range = document.body.createTextRange();
+                    range.moveToElementText(document.getElementById(containerid));
+                    range.select().createTextRange();
+                    document.execCommand("copy"); 
+
+                } else if (window.getSelection) {
+                    var range = document.createRange();
+                    range.selectNode(document.getElementById(containerid));
+                    window.getSelection().addRange(range);
+                    document.execCommand("copy");
+                }
+            }
         </script>
     </body>
 </html>
