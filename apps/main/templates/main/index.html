@@ -3,6 +3,15 @@
 
 <html lang="en-US">
     <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117526824-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-117526824-1');
+        </script>
         <title>The Office For The Office</title>
         <meta charset="utf-8">
         <meta name="description" content="The Office For The Office is a lorem ipsum generator.  You can get funny quotes from your favorite characters to
@@ -21,6 +30,7 @@
                 <h1>The Office For The Office</h1>
             </div>
             <div style="height: 50px"></div>
+            <div class="box">
             <div id="message-box">
                 <div id="message">
                     <p>Welcome to the Lorem Ipsum generator for The Office!  Click "Generate" to get funny filler text for your web page or if you just want to read
@@ -32,13 +42,13 @@
             </div>
             <div id="control-panel">
                 <!-- Document Control -->
-                <div>
+                <div style="width:834px;">
                     <button class="button-a" type="button" id="show_characters">Characters</button>
                     <button class="button-a" type="button" onclick="SelectAll()" id="select_all">Select All</button>
                     <button class="button-a" type="button" onclick="DeselectAll()" id="deselect_all">Deselect All</button>
                     <label class="paragraph-cont">Paragraphs:<input id="option_p" class="paragraph_option" style="display:inline-block; width:36px" type="number" name="paragraphs" value ="5"></label>  
-                    <label class="character-toggle"><input id="option_h" class="document_option" type="checkbox" name="headers" checked="checked"><span class="hspan">Headers On</span></label>
-                    <label class="character-toggle"><input id="option_l" class="document_option" type="checkbox" name="lists" checked="checked"><span class="lspan">Lists On</span></label>
+                    <label class="character-toggle-rel"><input id="option_h" class="document_option" type="checkbox" name="headers" checked="checked"><span class="hspan">Headers On</span></label>
+                    <label class="character-toggle-rel"><input id="option_l" class="document_option" type="checkbox" name="lists" checked="checked"><span class="lspan">Lists On</span></label>
                     <button class="generate-button button-a" type="button">Generate</button>
                 </div>
                 <div id="character_selection">
@@ -80,6 +90,8 @@
                     <label class="character-toggle"><input class="select_option" type="checkbox" value="36" name="36" checked="checked">Hidetoshi Hasagawa</label>
                 </div>
             </div><!-- END CONTROL BOX -->
+            </div>
+
             <div id="ipsum-data-box">
                 <div id="ipsum-data-bar">
                     <div id="data-bar">
